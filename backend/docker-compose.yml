@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  web:
+    build: .
+    volumes:
+      - .:/app/
+    depends_on:
+      - db
+    ports:
+      - $PORT:$PORT
+      - $DEBUG_PORT:$DEBUG_PORT
+    restart: always
+
+  db:
+    image: postgres:13.0
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: $DB_USER
+      POSTGRES_DB: $DB_NAME
+      POSTGRES_PASSWORD: $DB_PASSWORD
+    container_name: db
+    ports:
+      - 5433:$DB_PORT
+
+volumes:
+  postgres_data:
