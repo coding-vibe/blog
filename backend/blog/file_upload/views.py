@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.serializers import Serializer, CharField, ImageField
 from django.core.files.storage import FileSystemStorage
 from rest_framework.parsers import MultiPartParser
+from rest_framework.permissions import IsAuthenticated
 
 
 class FileUploadView(GenericAPIView):

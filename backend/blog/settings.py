@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'social_django',
     'drf_social_oauth2',
     'blog.file_upload',
+    'blog.article',
 ]
 
 MIDDLEWARE = [
