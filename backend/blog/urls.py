@@ -17,10 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from django.urls import path
+from django.conf.urls import include
+from django.urls import path, re_path
 from blog.file_upload.urls import file_upload_view
+from blog.article.urls import test_article_view
 
-urlpatterns = [path('admin/', admin.site.urls), path('file-upload/', file_upload_view)]
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('file-upload/', file_upload_view),
+    path('articles/', test_article_view),
+    re_path(r'^auth/', include('drf_social_oauth2.urls', namespace='drf'))
+]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
