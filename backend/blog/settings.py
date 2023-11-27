@@ -27,8 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-# TODO: make it different for non-development environment
-CORS_ALLOWED_ORIGINS = '*'
+# TODO: unhardcode cors
+CORS_ALLOWED_ORIGINS = ['http://localhost:5173']
 
 # Application definition
 
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'drf_social_oauth2',
     'blog.file_upload',
     'blog.article',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = (
