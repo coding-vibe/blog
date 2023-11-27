@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# TODO: make it different for non-development environment
+CORS_ALLOWED_ORIGINS = '*'
 
 # Application definition
 
