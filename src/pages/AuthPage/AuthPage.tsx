@@ -14,9 +14,6 @@ export default function AuthPage() {
         .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
         .join("&");
     window.open(authUrl);
-
-    const responseUrl = window.location.href;
-    console.log(responseUrl);
   };
 
   return (
