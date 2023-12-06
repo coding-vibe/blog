@@ -1,6 +1,6 @@
 const GoogleAuthButton = () => {
   const handleClick = () => {
-    const oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
+    // const oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
   };
 
   return (
