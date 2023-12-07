@@ -1,16 +1,27 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AuthPage from "./pages/AuthPage";
-import Layout from "./components/Layout";
+import Layout from "components/Layout";
+import AuthPage from "pages/AuthPage";
+import AuthVerificationPage from "pages/AuthVerificationPage";
 import "./App.css";
+
+const routes = {
+  ROOT: "/",
+  AUTH: "/auth",
+  VERIFY_AUTH: "/verify-auth",
+};
 
 const routesMap = createBrowserRouter([
   {
     element: <Layout />,
-    path: "/",
+    path: routes.ROOT,
     children: [
       {
         element: <AuthPage />,
-        path: "/auth",
+        path: routes.AUTH,
+      },
+      {
+        element: <AuthVerificationPage />,
+        path: routes.VERIFY_AUTH,
       },
     ],
   },
