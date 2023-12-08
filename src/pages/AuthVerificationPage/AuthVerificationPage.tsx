@@ -1,15 +1,17 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import queryString from "query-string";
+import Cookies from "js-cookie";
+import { routes } from "../../App";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const CLIENT_ID = import.meta.env.VITE_VERIFY_CLIENT_ID;
 const CLIENT_SECRET = import.meta.env.VITE_CLIENT_SECRET;
 const CONVERT_TOKEN_URL = `${BASE_URL}/auth/convert-token/`;
-const GET_ARTICLES_URL = `${BASE_URL}/articles`;
 
 export default function AuthVerificationPage() {
   const { hash } = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = queryString.parse(hash).access_token;
@@ -39,23 +41,20 @@ export default function AuthVerificationPage() {
         }
         const tokenData = await fetchTokenConversion.json();
 
-        const getArticlesRequestOptions = {
-          headers: {
-            Authorization: `Bearer ${tokenData.access_token}`,
-          },
-          method: "GET",
-        };
-        const fetchArticles = await fetch(
-          GET_ARTICLES_URL,
-          getArticlesRequestOptions
-        );
-        const articlesData = await fetchArticles.json();
-        console.log("Data:", articlesData);
+        Cookies.set("access_token", tokenData.access_token, {
+          expires: tokenData.expires_in,
+          secure: true,
+        });
+        Cookies.set("refresh_token", tokenData.refresh_token, {
+          expires: tokenData.expires_in,
+          secure: true,
+        });
       } catch (error) {
         console.error("Error during fetch data:", error);
       }
     };
-    exchangeGoogleAccessToken();
+    exchangeGoogleAccessToken().then(() => navigate(routes.POSTS));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hash]);
 
   return null;

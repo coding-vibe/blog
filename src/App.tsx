@@ -4,9 +4,10 @@ import AuthPage from "pages/AuthPage";
 import AuthVerificationPage from "pages/AuthVerificationPage";
 import "./App.css";
 
-const routes = {
+export const routes = {
   ROOT: "/",
   AUTH: "/auth",
+  POSTS: "/posts",
   VERIFY_AUTH: "/verify-auth",
 };
 
@@ -18,6 +19,10 @@ const routesMap = createBrowserRouter([
       {
         element: <AuthPage />,
         path: routes.AUTH,
+      },
+      {
+        element: <AuthVerificationPage />,
+        path: routes.POSTS,
       },
       {
         element: <AuthVerificationPage />,
