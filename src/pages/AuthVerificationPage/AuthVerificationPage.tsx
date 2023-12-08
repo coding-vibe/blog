@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import queryString from "query-string";
+import axios from "axios";
 import Cookies from "js-cookie";
+import queryString from "query-string";
 import { routes } from "../../App";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -25,35 +26,26 @@ export default function AuthVerificationPage() {
           backend: "google-oauth2",
           token,
         };
-        const convertTokenRequestOptions = {
-          body: JSON.stringify(body),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          method: "POST",
-        };
-        const fetchTokenConversion = await fetch(
-          CONVERT_TOKEN_URL,
-          convertTokenRequestOptions
-        );
-        if (!fetchTokenConversion.ok) {
-          throw new Error(`HTTP error! Status: ${fetchTokenConversion.status}`);
-        }
-        const tokenData = await fetchTokenConversion.json();
 
-        Cookies.set("access_token", tokenData.access_token, {
-          expires: tokenData.expires_in,
+        const response = await axios.post(CONVERT_TOKEN_URL, body);
+
+        const { access_token, expires_in, refresh_token } = response.data;
+
+        Cookies.set("access_token", access_token, {
+          expires: expires_in,
           secure: true,
         });
-        Cookies.set("refresh_token", tokenData.refresh_token, {
-          expires: tokenData.expires_in,
+        Cookies.set("refresh_token", refresh_token, {
+          expires: expires_in,
           secure: true,
         });
+
+        navigate(routes.POSTS);
       } catch (error) {
         console.error("Error during fetch data:", error);
       }
     };
-    exchangeGoogleAccessToken().then(() => navigate(routes.POSTS));
+    exchangeGoogleAccessToken();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hash]);
 

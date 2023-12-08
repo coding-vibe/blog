@@ -2,8 +2,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "components/Layout";
 import AuthPage from "pages/AuthPage";
 import AuthVerificationPage from "pages/AuthVerificationPage";
+import BlogPostsPage from "pages/BlogPostsPage";
 import "./App.css";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const routes = {
   ROOT: "/",
   AUTH: "/auth",
@@ -21,7 +23,7 @@ const routesMap = createBrowserRouter([
         path: routes.AUTH,
       },
       {
-        element: <AuthVerificationPage />,
+        element: <BlogPostsPage />,
         path: routes.POSTS,
       },
       {
