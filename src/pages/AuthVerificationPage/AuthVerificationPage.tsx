@@ -13,6 +13,7 @@ const CONVERT_TOKEN_URL = `${BASE_URL}/auth/convert-token/`;
 export default function AuthVerificationPage() {
   const { hash } = useLocation();
   const navigate = useNavigate();
+  const REVOCATION_ENDPOINT = "https://oauth2.googleapis.com/revoke";
 
   useEffect(() => {
     const token = queryString.parse(hash).access_token;
@@ -26,9 +27,8 @@ export default function AuthVerificationPage() {
           backend: "google-oauth2",
           token,
         };
-
         const response = await axios.post(CONVERT_TOKEN_URL, body);
-
+        console.log(response.data);
         const { access_token, expires_in, refresh_token } = response.data;
 
         Cookies.set("access_token", access_token, {
@@ -40,7 +40,17 @@ export default function AuthVerificationPage() {
           secure: true,
         });
 
-        navigate(routes.POSTS);
+        const params = {
+          token,
+        };
+        const revocation = await axios.post(REVOCATION_ENDPOINT, null, {
+          params,
+        });
+        if (revocation.status === 200) {
+          navigate(routes.POSTS);
+        } else {
+          throw new Error("Error during revoke token");
+        }
       } catch (error) {
         console.error("Error during fetch data:", error);
       }
