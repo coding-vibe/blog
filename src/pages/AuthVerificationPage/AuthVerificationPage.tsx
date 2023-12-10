@@ -28,7 +28,6 @@ export default function AuthVerificationPage() {
           token,
         };
         const response = await axios.post(CONVERT_TOKEN_URL, body);
-        console.log(response.data);
         const { access_token, expires_in, refresh_token } = response.data;
 
         Cookies.set("access_token", access_token, {
