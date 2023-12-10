@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # TODO: unhardcode cors
-CORS_ALLOWED_ORIGINS = ['http://localhost:5173']
+CORS_ALLOWED_ORIGINS = ['http://localhost:5173', 'http://localhost:3000']
 
 # Application definition
 
@@ -166,3 +166,7 @@ ACTIVATE_JWT = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+OAUTH2_PROVIDER = {
+  'ACCESS_TOKEN_EXPIRE_SECONDS': 60
+}
